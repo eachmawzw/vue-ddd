@@ -13,6 +13,7 @@
       <option value="black">黑方先手</option>
       <option value="white">白方先手</option>
     </select>
+    <button @click="regretStep">悔棋</button>
   </div>
 </template>
 <script>
@@ -44,7 +45,9 @@ export default {
       if (!status) {
         alert('游戏已开始')
       }
-      
+    },
+    regretStep(){
+      gameData.regretStep()
     }
   }
 }

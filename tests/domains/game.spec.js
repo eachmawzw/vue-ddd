@@ -158,6 +158,45 @@ describe('Game domain test', () => {
   })
 
   it('悔棋', () => {
+    //如果没有开始，不能悔棋
+    game.init()
+    chessboard = game.chessboard
+    expect(game.regretStep()).toBe(false)
+    //游戏结束后不能悔棋
+    expect(game.setFirst('white')).toBe(true)
+    expect(game.onStep(0, 0)).toBe(true)
+    expect(chessboard[0][0]).toBe('X')
+    expect(game.onStep(0, 1)).toBe(true)
+    expect(chessboard[0][1]).toBe('〇')
+    expect(game.onStep(1, 0)).toBe(true)
+    expect(chessboard[1][0]).toBe('X')
+    expect(game.onStep(1, 1)).toBe(true)
+    expect(chessboard[1][1]).toBe('〇')
+    expect(game.onStep(2, 0)).toBe(true)
+    expect(chessboard[2][0]).toBe('X')
+    expect(game.onStep(2, 1)).toBe(true)
+    expect(chessboard[2][1]).toBe('〇')
+    expect(game.onStep(3, 0)).toBe(true)
+    expect(chessboard[3][0]).toBe('X')
+    expect(game.onStep(3, 1)).toBe(true)
+    expect(chessboard[3][1]).toBe('〇')
+    expect(game.onStep(4, 0)).toBe(true)
+    expect(chessboard[4][0]).toBe('X')
+    expect(game.winner).toBe('white')
+    expect(game.gameover).toBe(true)
+    expect(game.regretStep()).toBe(false)
+    //游戏正在进行中可以悔棋
+    game.init()
+    chessboard = game.chessboard
+    expect(game.onStep(0, 0)).toBe(true)
     expect(game.regretStep()).toBe(true)
+    //悔棋后可以继续下上次下好的棋
+    game.init()
+    chessboard = game.chessboard
+    expect(game.onStep(0, 0)).toBe(true)
+    expect(chessboard[0][0]).toBe('〇')
+    expect(game.regretStep()).toBe(true)
+    expect(game.onStep(0, 0)).toBe(true)
+    expect(chessboard[0][0]).toBe('〇')
   })
 })

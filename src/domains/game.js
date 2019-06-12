@@ -23,6 +23,7 @@ class Game {
     // 胜利者
     this.winner = winner
     // 下棋历史
+    this.history = []
   }
   static getChessboard() {
     const rows = Array(15)
@@ -44,6 +45,7 @@ class Game {
   }
   // 开始下棋
   onStep(rowIdx, colIdx) {
+    
     if (this.gameover) {
       return false
     }
@@ -63,6 +65,7 @@ class Game {
         this.chessboard[rowIdx].splice(colIdx, 1, 'X')
       }
     }
+    this.history.push([rowIdx, colIdx])
     this.checkWinner()
     this.changePlayer()
     return true
@@ -157,8 +160,19 @@ class Game {
   }
   // 悔棋
   regretStep() {
-    // TODO
+    if (!this.gamestart) {
+      return false
+    }
+    if (this.gameover) {
+      return false
+    }
+    let [rowIdx, colIdx] = this.history.pop()
+    this.deleteStep(rowIdx, colIdx)
+    this.changePlayer()
     return true
+  }
+  deleteStep(rowIdx, colIdx) {
+    this.chessboard[rowIdx].splice(colIdx, 1, '')
   }
 }
 
