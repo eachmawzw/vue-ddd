@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>五子棋</h1>
     <div>winner is: {{ winner }}</div>
     <div v-for="(row, rIdx) in gameData.chessboard" :key="rIdx" class="chess-board">
       <div v-for="(col, cIdx) in row" :key="cIdx" class="chess-board-item" @click="onStep(rIdx, cIdx)">
@@ -8,6 +9,10 @@
     </div>
     <div v-if="gameData.gameover">游戏结束</div>
     <button @click="restartGame">重新开始</button>
+    <select v-if="!gameData.gamestart" name="" id="select" @change="changeFirst">
+      <option value="black">黑方先手</option>
+      <option value="white">白方先手</option>
+    </select>
   </div>
 </template>
 <script>
@@ -33,6 +38,13 @@ export default {
     },
     restartGame() {
       gameData.init()
+    },
+    changeFirst(event) {
+      const status = gameData.setFirst(event.target.value)
+      if (!status) {
+        alert('游戏已开始')
+      }
+      
     }
   }
 }

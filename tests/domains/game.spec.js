@@ -146,6 +146,17 @@ describe('Game domain test', () => {
     expect(game.gameover).toBe(true)
   })
 
+  it('设置先手方', () => {
+    game.init()
+    chessboard = game.chessboard
+    expect(game.setFirst('white')).toBe(true)
+    expect(game.onStep(0, 0)).toBe(true)
+    expect(chessboard[0][0]).toBe('X')
+    expect(game.setFirst('black')).toBe(false)
+    game.init()
+    expect(game.setFirst('white')).toBe(true)
+  })
+
   it('悔棋', () => {
     expect(game.regretStep()).toBe(true)
   })

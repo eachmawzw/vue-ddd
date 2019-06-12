@@ -7,7 +7,8 @@ class Game {
   }
   // 初始化游戏
   init({
-    first = 'black', 
+    first = 'black',
+    gamestart = false,
     gameover = false,
     winner = ''
   } = {}) {
@@ -15,6 +16,8 @@ class Game {
     this.chessboard = Game.getChessboard()
     // 先手方
     this.first = first
+    // 游戏开始
+    this.gamestart = gamestart
     // 游戏结束
     this.gameover = gameover
     // 胜利者
@@ -31,10 +34,22 @@ class Game {
   static initBox() {
     return ''
   }
+  // 设置先手方
+  setFirst(player) {
+    if (this.gamestart) {
+      return false
+    }
+    this.first = player
+    return true
+  }
   // 开始下棋
   onStep(rowIdx, colIdx) {
     if (this.gameover) {
       return false
+    }
+    // // 开始下棋后设定游戏开始
+    if (!this.gamestart) {
+      this.gamestart = true
     }
     if (this.chessboard[rowIdx][colIdx]) {
       return false
